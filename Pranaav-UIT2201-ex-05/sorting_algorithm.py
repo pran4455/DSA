@@ -199,7 +199,7 @@ def printout_cases(random_lst, sorted_lst, comparisons, swappings, time):
         swappings: number of swappings done
         time: time taken to run the function
 
-    returns:
+    Returns:
         None
     
     '''
@@ -229,7 +229,7 @@ def avg_scenario(size):
     args:
         size: the size of random list to be generated
     
-    returns:
+    Returns:
         None
     
     '''
@@ -267,7 +267,7 @@ def best_scenario(size):
     args:
         size: the size of random list to be generated
     
-    returns:
+    Returns:
         None
     
     '''
@@ -305,7 +305,7 @@ def worst_scenario(size):
     args:
         size: the size of random list to be generated
     
-    returns:
+    Returns:
         None
     
     '''
@@ -333,6 +333,20 @@ def worst_scenario(size):
 
 
 def main_calc(user_input, second_user_input):
+
+    '''
+    This function can be used to calculate the value
+    of nlogn for finding time complexities.
+
+    args:
+        user_input: the value of number of comparisons
+        by a given function.
+        second_user_input: the value of n
+
+    Returns:
+        the value of nlogn.
+    
+    '''
 
     result = user_input / (second_user_input * log2(second_user_input))
 
