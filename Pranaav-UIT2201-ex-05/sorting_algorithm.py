@@ -63,7 +63,7 @@ def bubble_sort(data):
                 data[j], data[j+1] = data[j+1], data[j]
 
     end_time = time.time()
-    time_taken = start_time - end_time
+    time_taken = end_time - start_time
 
     return (data, comparisons, swappings, time_taken)
 
@@ -109,9 +109,10 @@ def selection_sort(data):
             data[i], data[temp_ind] = data[temp_ind], data[i]
 
     end_time = time.time()
-    time_taken = start_time - end_time
+    time_taken = end_time - start_time
 
     return (data, comparisons, swappings, time_taken)     
+
 
 def insertion_sort(data):
 
@@ -152,7 +153,7 @@ def insertion_sort(data):
         data[j+1] = temp_var
 
     end_time = time.time()
-    time_taken = start_time - end_time
+    time_taken = end_time - start_time
 
     return (data, comparisons, swappings, time_taken)
 
@@ -237,6 +238,7 @@ def avg_scenario(size):
 
     copy_1 = random_lst.copy()
     copy_2 = random_lst.copy()
+    copy_3 = random_lst.copy()
     
     sorted_lst_sel, comparisons_sel, swappings_sel, time_sel = selection_sort(copy_1)
 
@@ -247,6 +249,11 @@ def avg_scenario(size):
 
     print("BUBBLE SORT")
     printout_cases(copy_2,sorted_lst_bub, comparisons_bub, swappings_bub, time_bub)
+
+    sorted_lst_ins, comparisons_ins, swappings_ins, time_ins = insertion_sort(copy_3)
+
+    print("INSERTION SORT")
+    printout_cases(copy_3,sorted_lst_ins, comparisons_ins, swappings_ins, time_ins)
 
 
 def best_scenario(size):
@@ -269,6 +276,7 @@ def best_scenario(size):
 
     copy_1 = random_lst.copy()
     copy_2 = random_lst.copy()
+    copy_3 = random_lst.copy()
 
     sorted_lst_sel, comparisons_sel, swappings_sel, time_sel = selection_sort(copy_1)
 
@@ -279,6 +287,11 @@ def best_scenario(size):
 
     print("BUBBLE SORT")
     printout_cases(copy_2,sorted_lst_bub, comparisons_bub, swappings_bub, time_bub)
+
+    sorted_lst_ins, comparisons_ins, swappings_ins, time_ins = insertion_sort(copy_3)
+
+    print("INSERTION SORT")
+    printout_cases(copy_3,sorted_lst_ins, comparisons_ins, swappings_ins, time_ins)
 
 
 def worst_scenario(size):
@@ -301,6 +314,7 @@ def worst_scenario(size):
 
     copy_1 = random_lst.copy()
     copy_2 = random_lst.copy()
+    copy_3 = random_lst.copy()
     
     sorted_lst_sel, comparisons_sel, swappings_sel, time_sel = selection_sort(copy_1)
 
@@ -311,6 +325,11 @@ def worst_scenario(size):
 
     print("BUBBLE SORT")
     printout_cases(copy_2,sorted_lst_bub, comparisons_bub, swappings_bub, time_bub)
+
+    sorted_lst_ins, comparisons_ins, swappings_ins, time_ins = insertion_sort(copy_3)
+
+    print("INSERTION SORT")
+    printout_cases(copy_3,sorted_lst_ins, comparisons_ins, swappings_ins, time_ins)
 
 
 def main_calc(user_input, second_user_input):
@@ -325,4 +344,28 @@ if __name__ == '__main__':
     #this part of the code will only be run when the function is called directly
     #it will not be executed when it is imported as a module
 
-    pass
+    for i in range(2,11):
+        lst = random_list(i)
+        copy_1 = lst.copy()
+        copy_2 = lst.copy()
+        copy_3 = lst.copy()
+
+        sorted_lst_bub, comparisons_bub, swappings_bub, time_bub = bubble_sort(copy_1)
+        sorted_lst_ins, comparisons_ins, swappings_ins, time_ins = insertion_sort(copy_2)
+        sorted_lst_sel, comparisons_sel, swappings_sel, time_sel = selection_sort(copy_3)
+
+        print("BUBBLE SORT")
+        printout_cases(copy_1,sorted_lst_bub, comparisons_bub, swappings_bub, time_bub)
+        print("INSERTION SORT")
+        printout_cases(copy_2,sorted_lst_ins, comparisons_ins, swappings_ins, time_ins)
+        print("SELECTION SORT")
+        printout_cases(copy_3,sorted_lst_sel, comparisons_sel, swappings_sel, time_sel)
+
+    print("Now testing their average case for large input size:")
+    avg_scenario(10000)
+
+    print("Now testing their best case for large input size:")
+    best_scenario(10000)
+
+    print("Now testing their worst case for large input size:")
+    worst_scenario(10000)
