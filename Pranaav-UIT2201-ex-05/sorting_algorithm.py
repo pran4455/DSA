@@ -30,6 +30,25 @@ from math import log2
 
 def bubble_sort(data):
 
+    '''
+    The given function sorts a given list using
+    the bubble sort method and has a time complexity
+    of O(n^2) and returns number of comparisons, swappings
+    and amount of time taken to run the function inside
+    a tuple.
+
+    The given input is modified.
+
+    args:
+        data: the list to be sorted.
+
+    Returns:
+        A tuple containing sorted list number of comparisons,
+        swappings and amount of time taken to run the function
+        inside a tuple.
+    
+    '''
+
     comparisons = 0
     swappings = 0
     n = len(data)
@@ -44,11 +63,31 @@ def bubble_sort(data):
                 data[j], data[j+1] = data[j+1], data[j]
 
     end_time = time.time()
+    time_taken = start_time - end_time
 
-    return (data, comparisons, swappings, start_time, end_time)
+    return (data, comparisons, swappings, time_taken)
 
 
 def selection_sort(data):
+
+    '''
+    The given function sorts a given list using
+    the selection sort method and has a time complexity
+    of O(n^2) and returns number of comparisons, swappings
+    and amount of time taken to run the function inside
+    a tuple.
+
+    The given input is modified.
+
+    args:
+        data: the list to be sorted.
+
+    Returns:
+        A tuple containing sorted list number of comparisons,
+        swappings and amount of time taken to run the function
+        inside a tuple.
+    
+    '''
 
     comparisons = 0
     swappings = 0
@@ -70,10 +109,30 @@ def selection_sort(data):
             data[i], data[temp_ind] = data[temp_ind], data[i]
 
     end_time = time.time()
+    time_taken = start_time - end_time
 
-    return (data, comparisons, swappings, start_time, end_time)     
+    return (data, comparisons, swappings, time_taken)     
 
 def insertion_sort(data):
+
+    '''
+    The given function sorts a given list using
+    the insertion sort method and has a time complexity
+    of O(n^2) and returns number of comparisons, swappings
+    and amount of time taken to run the function inside
+    a tuple.
+
+    The given input is modified.
+
+    args:
+        data: the list to be sorted.
+
+    Returns:
+        A tuple containing sorted list number of comparisons,
+        swappings and amount of time taken to run the function
+        inside a tuple.
+    
+    '''
 
     comparisons = 0
     swappings = 0
@@ -93,8 +152,9 @@ def insertion_sort(data):
         data[j+1] = temp_var
 
     end_time = time.time()
+    time_taken = start_time - end_time
 
-    return (data, comparisons, swappings, start_time, end_time)
+    return (data, comparisons, swappings, time_taken)
 
 
 def random_list(size):
@@ -121,7 +181,27 @@ def random_list(size):
     return random_list  
 
 
-def printout_cases(random_lst, sorted_lst, comparisons, swappings, start, end):
+def printout_cases(random_lst, sorted_lst, comparisons, swappings, time):
+
+    '''
+    This function provides a concise way of showing the
+    original data, sorted data as well as number of
+    comparisons, swappings and time taken.
+
+    The input is not modified and there are no side effects.
+
+    args:
+        random_lst: the unsorted data
+        sorted_lst: the sorted data
+        comparisons: number of comparisons between the elements
+        of the data
+        swappings: number of swappings done
+        time: time taken to run the function
+
+    returns:
+        None
+    
+    '''
 
     #print(f"Random list is : {random_lst}")
     print()
@@ -130,65 +210,107 @@ def printout_cases(random_lst, sorted_lst, comparisons, swappings, start, end):
     print("Size of data is : ",len(random_lst))
     print(f"Number of comparisons is : {comparisons}")
     print(f"Number of swappings is : {swappings}")
-    #print(f"Starting time : {start}")
-    #print(f"Ending time : {end}")
-    print("Time taken is : ", end - start)
+    print("Time taken is : ", time)
     print()
 
     print('-'*100)
     print()
 
 
-def avg_scenario(random_lst):
+def avg_scenario(size):
+
+    '''
+    The function provides the parameters required for
+    printing an average case scenario for sorting.
+
+    The input is not modified and there are no side effects.
+
+    args:
+        size: the size of random list to be generated
+    
+    returns:
+        None
+    
+    '''
+
+    random_lst = random_list(size)
 
     copy_1 = random_lst.copy()
     copy_2 = random_lst.copy()
     
-    sorted_lst_sel, comparisons_sel, swappings_sel, start_sel, end_sel = selection_sort(copy_1)
+    sorted_lst_sel, comparisons_sel, swappings_sel, time_sel = selection_sort(copy_1)
 
     print("SELECTION SORT")
-    printout_cases(copy_1,sorted_lst_sel, comparisons_sel, swappings_sel, start_sel, end_sel)
+    printout_cases(copy_1,sorted_lst_sel, comparisons_sel, swappings_sel, time_sel)
 
-    sorted_lst_bub, comparisons_bub, swappings_bub, start_bub, end_bub = bubble_sort(copy_2)
+    sorted_lst_bub, comparisons_bub, swappings_bub, time_bub = bubble_sort(copy_2)
 
     print("BUBBLE SORT")
-    printout_cases(copy_2,sorted_lst_bub, comparisons_bub, swappings_bub, start_bub, end_bub)
+    printout_cases(copy_2,sorted_lst_bub, comparisons_bub, swappings_bub, time_bub)
 
 
 def best_scenario(size):
+
+    '''
+    The function provides the parameters required for
+    printing a best case scenario for sorting.
+
+    The input is not modified and there are no side effects.
+
+    args:
+        size: the size of random list to be generated
+    
+    returns:
+        None
+    
+    '''
     
     random_lst = [x for x in range(size)]
 
     copy_1 = random_lst.copy()
     copy_2 = random_lst.copy()
 
-    sorted_lst_sel, comparisons_sel, swappings_sel, start_sel, end_sel = selection_sort(copy_1)
+    sorted_lst_sel, comparisons_sel, swappings_sel, time_sel = selection_sort(copy_1)
 
     print("SELECTION SORT")
-    printout_cases(copy_1,sorted_lst_sel, comparisons_sel, swappings_sel, start_sel, end_sel)
+    printout_cases(copy_1,sorted_lst_sel, comparisons_sel, swappings_sel, time_sel)
 
-    sorted_lst_bub, comparisons_bub, swappings_bub, start_bub, end_bub = bubble_sort(copy_2)
+    sorted_lst_bub, comparisons_bub, swappings_bub, time_bub = bubble_sort(copy_2)
 
     print("BUBBLE SORT")
-    printout_cases(copy_2,sorted_lst_bub, comparisons_bub, swappings_bub, start_bub, end_bub)
+    printout_cases(copy_2,sorted_lst_bub, comparisons_bub, swappings_bub, time_bub)
 
 
 def worst_scenario(size):
+
+    '''
+    The function provides the parameters required for
+    printing a worst case scenario for sorting.
+
+    The input is not modified and there are no side effects.
+
+    args:
+        size: the size of random list to be generated
+    
+    returns:
+        None
+    
+    '''
     
     random_lst = [x for x in range(size,0,-1)]
 
     copy_1 = random_lst.copy()
     copy_2 = random_lst.copy()
     
-    sorted_lst_sel, comparisons_sel, swappings_sel, start_sel, end_sel = selection_sort(copy_1)
+    sorted_lst_sel, comparisons_sel, swappings_sel, time_sel = selection_sort(copy_1)
 
     print("SELECTION SORT")
-    printout_cases(copy_1,sorted_lst_sel, comparisons_sel, swappings_sel, start_sel, end_sel)
+    printout_cases(copy_1,sorted_lst_sel, comparisons_sel, swappings_sel, time_sel)
 
-    sorted_lst_bub, comparisons_bub, swappings_bub, start_bub, end_bub = bubble_sort(copy_2)
+    sorted_lst_bub, comparisons_bub, swappings_bub, time_bub = bubble_sort(copy_2)
 
     print("BUBBLE SORT")
-    printout_cases(copy_2,sorted_lst_bub, comparisons_bub, swappings_bub, start_bub, end_bub)
+    printout_cases(copy_2,sorted_lst_bub, comparisons_bub, swappings_bub, time_bub)
 
 
 def main_calc(user_input, second_user_input):
