@@ -1,24 +1,43 @@
-# -*- coding: utf-8 -*-
+# Python3 Program for recursive binary search.
 
-def merge(A,B):
-    i = 0
-    j = 0
-    C = []
-    while i < len(A) and j < len(B):
-        if A[i] < B[j]:
-            C.append(A[i])
-            i += 1
-        else:
-            C.append(B[j])
-            j += 1
 
-    if i < len(A):
-        for k in range(i,len(A)):
-            C.append(A[k])
-    else:
-        for k in range(j,len(B)):
-            C.append(B[k])
-        
-    return C
+# Returns index of x in arr if present, else -1
+def binarySearch(arr, l, r, x):
 
-print(merge([1,5,7],[2,3,4,6,9]))
+	# Check base case
+	if r >= l:
+
+		mid = l + (r - l) // 2
+
+		# If element is present at the middle itself
+		if arr[mid] == x:
+			return mid
+
+		# If element is smaller than mid, then it
+		# can only be present in left subarray
+		elif arr[mid] > x:
+			return binarySearch(arr, l, mid-1, x)
+
+		# Else the element can only be present
+		# in right subarray
+		else:
+			return binarySearch(arr, mid + 1, r, x)
+
+	else:
+		# Element is not present in the array
+		return -1
+
+
+# Driver Code
+if __name__ == '__main__':
+	arr = [x for x in range(100000)]
+	x = 999999
+	
+	
+	# Function call
+	result = binarySearch(arr, 0, len(arr)-1, x)
+	
+	if result != -1:
+		print("Element is present at index % d" % result)
+	else:
+		print("Element is not present in array")
