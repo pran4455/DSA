@@ -24,5 +24,8 @@ Original Author: U. Pranaav <pranaav2210205@ssn.edu.in>
 
 import inheritance
 
+class customer(inheritance.product):
 
+    def cust():
+        pass
 
