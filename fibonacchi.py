@@ -2,7 +2,6 @@
 
 def fibonacchi(size):
 
-
     global dyn_store
 
     if size == 0:

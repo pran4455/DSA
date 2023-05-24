@@ -1,5 +1,28 @@
 # -*- coding: utf-8 -*-
 
+
+"""
+
+This module provides a function that performs a binary search on
+a sorted list in order to find a certain element, and displays
+-1 if the given element is not found. This is a part of the 
+exercises given under the course UIT2201 (Programming and Data
+Structures).
+
+In this source code I have executed my own logic. The code
+follows good coding practices.
+
+Your comments and suggestions are welcome.
+
+Created on Wed May 10 2023
+
+Revised on Wed May 17 2023
+
+Original Author: U. Pranaav <pranaav2210205@ssn.edu.in>
+
+"""
+
+
 import random
 from time import time 
 
@@ -39,13 +62,13 @@ def binary_search(data,s_ele,high,low=0):
         if data[mid] == s_ele:
             return mid
         
-        elif data[mid] < s_ele:
-            return binary_search(data,s_ele,high,mid+1)
-        
         elif data[mid] > s_ele:
             return binary_search(data,s_ele,mid-1,low)
         
-    else:
+        elif data[mid] < s_ele:
+            return binary_search(data,s_ele,high,mid+1)
+        
+    else:#1 2 3 4 5 6 7
 
         return -1
         
@@ -89,6 +112,7 @@ if __name__ == '__main__':
 
     print(f"Actual index : 0 , index found via binary search : {ind}")
     print("Time taken is :", end - start)
+    print()
 
     random_lst = [x for x in range(1,10000001)]
 
@@ -97,15 +121,17 @@ if __name__ == '__main__':
     ind = binary_search(random_lst,search_val,len(random_lst)-1)
     end = time()
 
-    print(f"Actual index : 0 , index found via binary search : {ind}")
+    print(f"Actual index : 9999999 , index found via binary search : {ind}")
     print("Time taken is :", end - start)
+    print()
 
     random_lst = [x for x in range(1,10000001)]
 
-    search_val = 100000000
+    search_val = 100000000000000
     start = time()
     ind = binary_search(random_lst,search_val,len(random_lst)-1)
     end = time()
 
     print(f"Element is not present in list, index found via binary search : {ind}")
     print("Time taken is :", end - start)
+    print()

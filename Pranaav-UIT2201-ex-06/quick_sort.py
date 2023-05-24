@@ -4,7 +4,7 @@
 """
 
 This module provides two functions that are used for implementing
-merge sort. One of the functions is used for merging two sorted
+quick sort. One of the functions is used for merging two sorted
 lists and giving a third sorted list that combines the two lists
 as output. Other function performs the merge sort by recursively
 calling the first function and returns a sorted list. This is a
@@ -29,76 +29,117 @@ import random
 import time
 
 
-def merge(A,B):
+def partition(data,i,j,pivot):
+
 
     '''
-    This function merges two sorted lists, A and B, into a single
-    sorted list C. It compares the elements from A and B one by one,
-    placing the smaller element in C. The function keeps track of the
-    number of comparisons made using the global variable count.
+    This function partitions a given list 'data' based on a pivot
+    element. It rearranges the elements in the list such that all
+    elements smaller than the pivot are placed to the left of it,
+    and all elements greater than the pivot are placed to the right
+    of it.
 
-    The input lists A and B are not modified, and there are no side
-    effects.
+    The input list 'data' is modified during the partitioning
+    process.
 
     Args:
-        A: First sorted list.
-        B: Second sorted list.
+        data: The list of elements to be partitioned.
+        i: The starting index of the partitioning range.
+        j: The ending index of the partitioning range.
+        pivot: The pivot element used for partitioning.
 
     Returns:
-        A new list C containing all elements from A and B, merged in
-        sorted order.
+        The index of the pivot element after partitioning.
+    
+    '''
+
+    global count
+     
+    while True:
+        count += 1
+        while data[i] < pivot:
+            i += 1
+        while data[j] > pivot:
+            j -= 1
+        
+        if i>=j:
+            break
+
+        data[i] , data[j] = data[j] , data[i]
+        j -= 1
+        i += 1
+
+    data[i] , data[len(data)-1] = data[len(data)-1] , data[i]
+    return i
+
+
+def getmid_index(arr, left, right):
+
+    '''
+    This function determines the index of the middle element
+    in a given list 'arr' between the indices 'left' and 'right'.
+    It considers three elements: the element at the 'left' index,
+    the element at the 'right' index, and the element at the
+    calculated middle index.
+
+    The input list 'arr' is not modified.
+
+    Args:
+        arr: The list of elements.
+        left: The left index of the range.
+        right: The right index of the range.
+
+    Returns:
+        The index of the middle element between 'left' and 'right'.
 
     '''
 
     global count
 
-    i = 0
-    j = 0
-    C = []
-    while i < len(A) and j < len(B):
-        count += 1
-        if A[i] < B[j]:
-            C.append(A[i])
-            i += 1
-        else:
-            C.append(B[j])
-            j += 1
-
-    if i < len(A):
-        C.extend(A[i:])
+    mid = (left + right) // 2
+    count += 1
+    
+    if arr[left] <= arr[mid] <= arr[right] or arr[right] <= arr[mid] <= arr[left]:
+        return mid
+    elif arr[mid] <= arr[left] <= arr[right] or arr[right] <= arr[left] <= arr[mid]:
+        return left
     else:
-        C.extend(B[j:])
-        
-    return C
+        return right
 
 
-def merge_sort(data):
+def quick_sort(data):
 
     '''
-    This function implements the merge sort algorithm to sort a
-    given list of data in ascending order. It recursively divides
-    the list into smaller sublists, sorts them individually, and
-    then merges them back together using the merge() function.
+    This function implements the quicksort algorithm to sort a given
+    list of data in ascending order. It recursively divides the list
+    into smaller sublists, selects a pivot element, partitions the
+    list based on the pivot, and then sorts the sublists individually.
 
-    The input list is not modified, and there are no side effects.
+    The input list 'data' is not modified. The function creates new
+    lists during the sorting process.
 
     Args:
         data: The list of elements to be sorted.
 
     Returns:
         A new list containing the sorted elements of the input list.
-
+    
     '''
 
-    n = len(data)
-    if n < 2:
-        return data[:]
-    
+    global count
+
+    if len(data) > 1:
+        pivot_ind = getmid_index(data,0,len(data)-1)
+        pivot = data[pivot_ind]
+        data[pivot_ind], data[len(data)-1] = data[len(data)-1], data[pivot_ind]
+
+        i = 0
+        j = len(data) - 2
+        count += 1
+        i = partition(data,i,j,pivot)
+        return quick_sort(data[:i]) + [pivot] + quick_sort(data[i+1:])
     else:
-        mid = n // 2
-
-        return merge(merge_sort(data[:mid]), merge_sort(data[mid:]))
-
+        return data
 
 def random_list(size):
 
@@ -142,7 +183,7 @@ def worst_scenario(size):
     
     random_lst = [x for x in range(size,0,-1)]
 
-    merge_sort(random_lst)
+    quick_sort(random_lst)
 
     print("Worst case scenario is:", count)
 
@@ -165,7 +206,7 @@ def best_scenario(size):
     
     random_lst = [x for x in range(size)]
 
-    merge_sort(random_lst)
+    quick_sort(random_lst)
 
     print("Best case scenario is:", count)
 
@@ -188,7 +229,7 @@ def avg_scenario(size):
 
     random_lst = random_list(size)
 
-    merge_sort(random_lst)
+    quick_sort(random_lst)
 
     print("Average case scenario is:", count)
 
@@ -203,7 +244,7 @@ if __name__ == '__main__':
     random_lst = random_list(20)
     print(f"Random list is : {random_lst}")
 
-    sorted_val = merge_sort(random_lst)
+    sorted_val = quick_sort(random_lst)
     print(f"Sorted list is: {sorted_val}")
     print(f"Count is : {count}")
 
@@ -212,40 +253,40 @@ if __name__ == '__main__':
     while k <= 10000:
         count = 0
         start = time.time()
-        merge_sort(random_list(k))
+        quick_sort(random_list(k))
         end = time.time()
         print(f"k is {k} and count is : {count}")
-        print(f"Time taken is : {end - start}")
+        print(f"Time taken is: {end - start}")
         print()
         k *= 10
     
     k = 20000
     count = 0
     start = time.time()
-    merge_sort(random_list(k))
+    quick_sort(random_list(k))
     end = time.time()
     print(f"k is {k} and count is : {count}")
-    print(f"Time taken is : {end - start}")
+    print(f"Time taken is: {end - start}")
     print()
 
     k = 50000
     count = 0
     start = time.time()
-    merge_sort(random_list(k))
+    quick_sort(random_list(k))
     end = time.time()
     print(f"k is {k} and count is : {count}")
-    print(f"Time taken is : {end - start}")
+    print(f"Time taken is: {end - start}")
     print()
 
-    print("Test case size: 10000\n")
+    print("For size 1000:\n")
     count = 0
 
-    avg_scenario(10000)
-
-    count = 0
-
-    best_scenario(10000)
+    avg_scenario(1000)
 
     count = 0
 
-    worst_scenario(10000)
+    best_scenario(1000)
+
+    count = 0
+
+    worst_scenario(1000)
