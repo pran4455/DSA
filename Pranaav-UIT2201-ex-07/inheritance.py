@@ -248,22 +248,23 @@ if __name__ == '__main__':
     #this part of the code will only be run when the function is called directly
     #it will not be executed when it is imported as a module
 
-    a = ElectronicProduct("Ra",500,5,"louis","EX1550")
-    b = ClothingProduct("OANR",10000,1,"louis vitton","MANN0912")
-    c = ClothingProduct("ajlskfd",15000,2,"louis vitton","MANN12")
+    a = ElectronicProduct("Phone",500,5,"Orange","EX1550")
+    b = ClothingProduct("T-shirt",10000,1,"Medium","Blue")
+    c = ClothingProduct("Shorts",15000,2,"Large","Black")
 
     a.display_information()
     print()
     b.display_information()
     print()
 
-    b+c
+    b+c  #for printing combo offer
+    print()
 
     data_dict = {}
     brand_names = []
     model_names = []
 
-    n = int(input("Enter number of entries : "))
+    n = int(input("Enter number of entries electronic devices: "))
 
     for i in range(n):
         data_dict = input_create(data_dict)
@@ -271,6 +272,7 @@ if __name__ == '__main__':
         model = input("Enter model name : ")
         brand_names.append(brand)
         model_names.append(model)
+        print()
     
     electronic_objects = add_items_electronic(data_dict,brand_names,model_names)
 
@@ -278,7 +280,7 @@ if __name__ == '__main__':
     sizes = []
     colors = []
 
-    n = int(input("Enter number of entries : "))
+    n = int(input("Enter number of entries for clothes: "))
 
     for i in range(n):
         data_dict = input_create(data_dict)
@@ -286,6 +288,7 @@ if __name__ == '__main__':
         color = input("Enter color name : ")
         sizes.append(size)
         colors.append(color)
+        print()
 
     clothing_objects = add_items_clothing(data_dict,sizes,colors)
 

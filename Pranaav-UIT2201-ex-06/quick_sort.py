@@ -141,6 +141,7 @@ def quick_sort(data):
     else:
         return data
 
+
 def random_list(size):
 
     '''
