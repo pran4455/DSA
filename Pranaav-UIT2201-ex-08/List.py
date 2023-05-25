@@ -75,6 +75,7 @@ class Array:
             self.n = 0
             self.capacity = len(val)
             temp = self.makearray(len(val))
+            
 
 
     def __len__(self):
@@ -138,6 +139,11 @@ class Array:
         for i in range(len(self.lst)):
             new_arr[i] = self.lst[i]
         return new_arr
+    
+
+    def extend(self,lst):
+
+
     
     
     def __getitem__(self,ind):
