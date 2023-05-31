@@ -68,7 +68,7 @@ def binary_search(data,s_ele,high,low=0):
         elif data[mid] < s_ele:
             return binary_search(data,s_ele,high,mid+1)
         
-    else:#1 2 3 4 5 6 7
+    else:
 
         return -1
         

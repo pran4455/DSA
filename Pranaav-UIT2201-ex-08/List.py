@@ -69,14 +69,18 @@ class Array:
         if isinstance(val, int):
             self.n = 0
             self.capacity = val
-            self.lst = self.makearray(val)
+            self.array = self.makearray(val)
 
-        elif isinstance(val, list):
-            self.n = 0
+        elif isinstance(val, list) or isinstance(val, tuple):
+            self.n = len(val)
             self.capacity = len(val)
-            temp = self.makearray(len(val))
-            
+            self.array = val
 
+        elif isinstance(val, str):
+            self.n = len(val)
+            self.capacity = len(val)
+            self.array = [i for i in val]
+            
 
     def __len__(self):
 
@@ -116,10 +120,23 @@ class Array:
         '''
 
         if self.n == self.capacity:
-            self.lst = self.resize(2 * self.capacity)
+            self.array = self.resize(2 * self.capacity)
 
-        self.lst[self.n] = element
+        self.array[self.n] = element
         self.n += 1
+
+
+    def get_capacity(self):
+
+        """
+        Returns the current capacity of the dynamic array.
+
+        Returns:
+            The current capacity of the array.
+
+       """
+    
+        return self.capacity
 
 
     def resize(self, cap):
@@ -136,15 +153,150 @@ class Array:
         '''
 
         new_arr = self.makearray(cap)
-        for i in range(len(self.lst)):
-            new_arr[i] = self.lst[i]
+        self.capacity = cap
+
+        for i in range(len(self.array)):
+            new_arr[i] = self.array[i]
         return new_arr
     
 
-    def extend(self,lst):
+    def extend(self,other):
 
+        '''
+        Extends the Array by appending elements from another iterable.
+
+        Parameters:
+        other (iterable): An iterable containing elements to be appended.
+
+        Returns:
+        None
+
+        Raises:
+        None
+
+        '''
+
+        try:
+            for i in other:
+                self.append(i)
+        except:
+            None
+
+
+    def insert(self,ele,ind):
+
+        '''
+        Inserts an element at the specified index in the Array.
+
+        Parameters:
+        ele: The element to be inserted.
+        ind: The index at which the element should be inserted.
+
+        Returns:
+        None
+
+        Raises:
+        None
+
+        '''
+
+        if self.n > ind:
+            for i in range(self.n,ind,-1):
+
+                self[i] = self[i-1]
+            
+            self[ind] = ele
 
     
+    def delete(self, idx):
+
+        """
+        Deletes an element at a given index in the array.
+
+        Args:
+            idx: The index of the element to delete.
+
+        Raises:
+            IndexError: If the index is out of range
+
+        """
+
+        if not 0 <= idx < self.n:
+            raise IndexError("Index out of range.")
+        
+        for i in range(idx, self.n - 1):
+            self.array[i] = self.array[i + 1]
+        self.n -= 1
+
+        if self.n < self.capacity // 4:
+            self.resize(self.capacity // 2)
+
+
+    def index(self, elt):
+
+        """
+        Checks if an element is present in the array and returns the
+        index of the element
+
+        Args:
+            elt: Element whose index is to be found out
+
+        Returns:
+            idx (int): If the element is found, index of the element
+            is returned, else -1.
+
+        """
+
+        for idx in range(0, self.n):
+            if self.array[idx] == elt:
+                return idx
+        return -1
+    
+
+    def count(self, count_elt):
+
+        """
+        Returns the number of occurrences of an element in the dynamic
+        array
+
+        Args:
+            count_elt: Element whose number of occurrences is to be found
+
+        Returns:
+            count (idx): The number of occurrences of an element in the
+            dynamic array
+
+        """
+
+        count = 0
+        for idx in range(0, self.n):
+            if self.array[idx] == count_elt:
+                count += 1
+        return count
+
+
+    def __contains__(self,ele):
+
+        """
+        Check if the given element is present in the array.
+
+        Parameters:
+        ele (Any): The element to check for presence in the array.
+
+        Returns:
+        bool: True if the element is found in the array, False
+        otherwise.
+
+        """
+
+        try:
+            for i in self.array:
+                if ele == i:
+                    return True
+        except:
+            return False
+        return False
+
     
     def __getitem__(self,ind):
 
@@ -159,7 +311,7 @@ class Array:
     
         '''
 
-        return self.lst[ind]
+        return self.array[ind]
     
     
     def __setitem__(self,ind,ele):
@@ -176,7 +328,7 @@ class Array:
 
         if ind <= self.n:
             self.n += 1
-            self.lst[ind] = ele
+            self.array[ind] = ele
         
         else:
             raise IndexError("Index out of range")
@@ -196,11 +348,11 @@ class Array:
         for i in range(self.n):
             try:
                 if i != (self.n - 1):
-                    out += str(self.lst[i])
+                    out += str(self.array[i])
                     out += ','
 
                 else:
-                    out += str(self.lst[i])
+                    out += str(self.array[i])
             except:
                 continue
 
@@ -224,6 +376,7 @@ if __name__ == '__main__':
             a.append(i)
         end = default_timer()
 
+        #amortized analysis
         print(f"SIZE : {size} \nTIME : {(end - start)} \nRATIO : {(end - start)/size} \n")
 
     lst1 = [x for x in range(1,11)]
@@ -233,3 +386,27 @@ if __name__ == '__main__':
     print(f"List number 2 : {lst2}")
 
     print(f"Appending an element [5] to list 1: {lst1.append(5)}")
+
+    new = Array(3)
+    new[0] = 1
+    new[1] = 900
+
+    newone = Array(5)
+    newone[0] = 500
+    newone[1] = 400
+    newone.append(1000)
+
+    newone.extend(new)
+    print(newone)
+
+    print(1000 in newone)
+    print(9000 in newone)
+
+    print(newone)
+    print(newone.count(1000))
+    print(newone.index(500))
+
+    newone.delete(0)
+    print(newone)
+
+    print(newone.get_capacity())
