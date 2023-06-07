@@ -326,5 +326,4 @@ if __name__ == '__main__':
             print(f"{n} is a palindrome")
 
         else:
-            print(f"{n} is not a palindrome")
-
+            continue

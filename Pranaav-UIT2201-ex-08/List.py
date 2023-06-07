@@ -326,10 +326,9 @@ class Array:
 
         '''
 
-        if ind <= self.n:
-            self.n += 1
+        if ind <= self.top:
             self.array[ind] = ele
-        
+
         else:
             raise IndexError("Index out of range")
 
