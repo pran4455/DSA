@@ -111,7 +111,7 @@ def selection_sort(data):
     end_time = time.time()
     time_taken = end_time - start_time
 
-    return (data, comparisons, swappings, time_taken)     
+    return (data, comparisons, swappings, time_taken)
 
 
 def insertion_sort(data):
@@ -140,7 +140,7 @@ def insertion_sort(data):
     n = len(data)
     start_time = time.time()
 
-    for i in range(1,n-1):
+    for i in range(1,n):
 
         j = i - 1
         temp_var = data[i]

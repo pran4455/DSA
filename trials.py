@@ -1,6 +1,5 @@
 import random
 
-
 def ins_sort(data):
 
     n = len(data)
@@ -65,6 +64,7 @@ def merge(A,B):
     return C           
 
 # print(merge([1,2,5,7,8,80],[-1,0,10,100]))
+a = [123,12,31,21,23,123,1,231231]
 
 import ctypes
 
@@ -180,23 +180,983 @@ class dynarray:
 
                 print(self.top)     
 
+def insort(data):
+
+    N = len(data)
+    for i in range(1,N):
+        j = i - 1
+        temp = data[i]
+        while j >= 0 and temp < data[j]:
+
+            data[j + 1] = data[j]
+            j -= 1
+        data[j + 1] = temp
+
+def selsor(data):
+
+    for i in range(len(data)):
+
+        ind = i
+
+        for j in range(i+1,len(data)):
+
+            if data[ind] > data[j]:
+
+                ind = j
+
+        if i != ind:
+
+            data[ind], data[i] = data[i], data[ind]
+
+def mers(a,b):
+
+    i = 0
+    j = 0
+    c = []
+    while i < len(a) and j < len(b):
+
+        if a[i] < b[j]:
+            c.append(a[i])
+            i += 1
+        else:
+            c.append(b[j])
+            j += 1
+
+    if j < len(b):
+
+        c.extend(b[j:])
+
+    else:
+
+        c.extend(a[i:])
+
+    return c
+
+def mersor(data):
+
+    if len(data) < 2:
+
+        return data[:]
+    
+    else:
+        mid = len(data)//2
+        return mers(mersor(data[:mid]),mersor(data[mid:]))
+
+def part(data,i,j,pivot):
+
+    while True:
+
+        while data[i] < pivot:
             
-a = dynarray(5)
-a.append(103)
+            i += 1
+    
+        while data[j] > pivot:
+
+            j -= 1
+
+        if i >= j:
+
+            break
+    
+        data[j], data[i] = data[i], data[j]
+        i += 1
+        j -= 1
+
+        
+    # print(data)
+    # print(i)
+    data[i] , data[len(data)-1] = data[len(data)-1] , data[i]
+    return i
+
+def qs(data):
+        
+    if len(data) > 2:
+
+        pivot = data[-1]
+        i = 0
+        j = len(data) - 2
+        i = part(data,i,j,pivot)
+
+        return qs(data[:i]) + [pivot] + qs(data[i+1:])
+    
+    else:
+
+        return data
+
+class List:
+
+    def __init__(self,val):
+
+        if isinstance(val, int):
+
+            self.List = self.makearray(val)
+            self.cap = val
+            self.size = 0
+        
+        elif isinstance(val, list,tuple):
+
+            self.List = self.makearray(len(val))
+            for i in range(len(val)):
+
+                self.List[i] = val[i]
+
+            self.size = len(val)
+            self.cap = len(val)
+
+        else:
+
+            raise Exception("Invalid input")
+        
+    def makearray(self,size):
+
+        b = (size * ctypes.py_object)()
+        self.cap = size
+        return b
+    
+    def resize(self,size):
+
+        temp = self.makearray(size)
+        for i in range(self.size):
+            temp[i] = self.List[i]
+
+        return temp
+    
+    def __setitem__(self,ind,val):
+
+        self.List[ind] = val
+
+    def __getitem__(self,ind):
+
+        return self.List[ind]
+    
+    def isfull(self):
+
+        return self.cap == self.size
+    
+    def __str__(self):
+
+        s = '['
+
+        
+        for i in range(self.size):
+                s += str(self.List[i])+','
+
+        if s[-1] == ',':
+            s = s[:-1]
+        return s + ']'
+    
+    def append(self,val):
+            
+        if self.isfull():
+
+            self.List = self.resize(self.cap * 2)
+            self.List[self.size] = val
+            self.size += 1
+
+        else:
+
+            self.List[self.size] = val
+            self.size += 1
+
+    def __len__(self):
+
+        return self.size
+    
+    def isempty(self):
+        if self.size == 0:
+            return True
+        return False
+    
+    def pop(self,ind=None):
+
+        if self.isempty():
+            raise Exception("Empty list")
+        
+        else:
+            if ind == None:
+                pop_ele = self.List[self.size - 1]
+                self.List[self.size - 1] = ctypes.py_object()
+                self.size -= 1
+                return pop_ele
+            
+            elif ind < self.size:
+                
+                pop_ele = self.List[ind]
+                for i in range(ind,self.size - 1):
+
+                    self.List[i] = self.List[i+1]
+
+                self.List[self.size - 1] = ctypes.py_object()
+                self.size -= 1
+                return pop_ele
+            
+            else:
+                raise Exception("Invalid index")
+
+    def remove(self,ele):
+
+        ind = 0
+        try:
+            for val in self.List:
+                if val == ele:
+                    self.pop(ind)
+
+                ind += 1
+        except:
+            pass
+    
+    def insert(self,ind,ele):
+
+        if self.isfull():
+
+            self.List = self.resize(2 * self.cap)
+
+        for i in range(ind,self.size):
+            self.List[i+1] = self.List[i]
+        self.List[ind] = ele
+
+b = List(5)
+x = [i for i in range(10,100,10)]
+for i in x:
+    b.append(i)
+
+print(b)
+b.remove(90)
+print(b)
+a = list()
+
+class Node:
+
+    __slots__ = ['item','next']
+
+    def __init__(self,item=None,next=None):
+
+        self.item = item
+        self.next = next
+
+class LinkedArray:
+
+    def __init__(self):
+
+        self.top = Node()
+        self.size = 0
+
+    def push(self,ele):
+
+        temp = Node(ele)
+        pos = self.top.next
+        self.top.next = temp
+        temp.next = pos
+        self.size += 1
+
+    def pop(self):
+
+        if self.isempty():
+            raise Exception("stack underflow")
+        
+        else:
+            self.top.next = self.top.next.next
+            self.size -= 1
+    
+    def peek(self):
+
+        return self.top.next.item
+    
+    def isempty(self):
+
+        return self.top.next == None
+    
+    def __str__(self):
+
+        pos = self.top.next
+        s = ''
+        while pos is not None:
+            d = str(pos.item)
+            s += d[::-1] + ','
+            pos = pos.next
+
+        if s[-1] == ',':
+            s = s[:-1]
+
+        return '[' + s[::-1] + ']'
+    
+class LinkedQueue:
+
+    def __init__(self):
+        pass
+
+class DNode(Node):
+
+    def __init__(self,item=None,next=None,prev=None):
+
+        super().__init__(item,next)
+        self.prev = prev
+    
+class Doublylinked:
+
+    def __init__(self):
+
+        self.head = self.tail = DNode()
+        self.size = 0
+
+    def append(self,ele):
+
+        temp = DNode(ele)
+        temp.prev = self.tail
+        self.tail.next = temp
+        self.tail = temp
+        self.size += 1
+
+    def pop(self):
+
+        self.tail = self.tail.prev
+        self.tail.next.prev = None
+        self.tail.next = None
+        self.size -= 1
+
+    def __str__(self):
+
+        pos = self.head.next
+        s = '['
+        while pos is not None:
+            d = str(pos.item)
+            s += d + ','
+            pos = pos.next
+
+        if s[-1] == ',':
+            s = s[:-1]
+
+        return s + ']'
+    
+# c = Doublylinked()
+# c.append(10)
+# c.append(20)
+# print(c)
+
+def insertionsort(data):
+
+    for i in range(len(data)):
+
+        temp = data[i]
+        j = i - 1
+        while j >= 0 and data[j] > temp:
+
+            data[j + 1] = data[j]
+            j -= 1
+        
+        data[j+1] = temp
+
+def selsort(data):
+
+    for i in range(len(data)):
+
+        ind = i
+
+        for j in range(i+1,len(data)):
+
+            if data[j] < data[ind]:
+
+                ind = j
+
+        data[i] , data[ind] = data[ind], data[i]
+
+def bubsort(data):
+
+    for i in range(len(data)):
+
+        for j in range(len(data) - i - 1):
+
+            if data[j] > data[j+1]:
+
+                data[j],data[j+1] = data[j+1],data[j]
+
+def mersor(a,b):
+
+    i = j = 0
+    c = []
+    while i < len(a) and j < len(b):
+
+        if a[i] < b[j]:
+
+            c.append(a[i])
+            i += 1
+        
+        else:
+
+            c.append(b[j])
+            j += 1
+    
+    if i < len(a):
+
+        c.extend(a[i:])
+
+    else:
+
+        c.extend(b[j:])
+
+    return c
+
+a = [123, 12, 2, 5, 739, 1023123, 10]
+b = [1281083, 123112, 1232, 15, 9739, 1023123, 10]
+# a.sort()
+# b.sort()
+# print(mersor(a,b))
+
+def parti(data,i,j,pivot):
+
+    while True:
+
+        while data[i] < pivot:
+
+            i += 1
+
+        while data[j] > pivot:
+
+            j -= 1
+
+        if i >= j:
+
+            break
+        
+        data[i], data[j] = data[j], data[i]
+        i += 1
+        j += 1
+    
+    return i
+
+def qsor(data):
+
+    if len(data) < 2:
+
+        return data
+    
+    pivot = data[-1]
+    i = 0
+    j = len(data) - 2
+    ind = part(data,i,j,pivot)
+
+    return qsor(data[:ind]) + [pivot] + qsor(data[ind+1:])
+
+# n = qsor(a)
+# print(a)
+# print(n)
+
+class LinkedCircularQueue:
+
+    def __init__(self):
+
+        self.front = self.rear = Node()
+        self.rear.next = self.front
+        self.size = 0
+
+    def enqueue(self,ele):
+
+        temp = Node(ele)
+        self.rear.next = temp
+        self.rear = temp
+        temp.next = self.front
+        self.size += 1
+
+    def dequeue(self):
+
+        if self.isempty():
+
+            raise Exception("Queue underflow")
+    
+        else:
+
+            pop_ele = self.front.next.item
+            self.front.next = self.front.next.next
+            self.size -= 1
+            return pop_ele
+        
+    def isempty(self):
+
+        return self.front.next == self.front
+
+    def __str__(self) -> str:
+        
+        s = '['
+
+        pos = self.front.next
+        while pos is not self.front:
+
+            s += str(pos.item) + ','
+            pos = pos.next
+
+        if s[-1] == ',':
+            s = s[:-1]
+
+        return s + ']'
+    
+    
+a = LinkedCircularQueue()
+a.enqueue(10)
+for i in x:
+
+    a.enqueue(i)
+
 print(a)
-a.append(203)
+for i in x:
+
+    # print(a.dequeue())
+    # print(a)
+    a.dequeue()
 print(a)
-a.append(3036)
-print(a)
-a.append(103463)
-print(a)
-a.append(20354)
-print(a)
-a.append(303)
-print(a)
-a.append(108)
-print(a)
-a.append(280)
-print(a)
-print(a.pop())
-print(a.pop())
+# a.dequeue()
+# a.dequeue()
+# a.dequeue()
+# a.dequeue()
+# a.dequeue()
+# a.dequeue()
+# a.dequeue()
+# a.dequeue()
+# a.dequeue()
+# a.dequeue()
+# a.dequeue()
+# a.dequeue()
+a.enqueue(10)
+# print(a)
+
+# list stack queue 
+
+# wrapper linked compact dynamic
+
+class circularqueue:
+
+    def __init__(self,cap):
+
+        self.cap = cap
+        self.queue = self.makearray(cap)
+        self.front = self.rear = 0
+        self.size = 0
+
+    def makearray(self,size):
+
+        b = (size * ctypes.py_object)()
+        return b
+    
+    def __setitem__(self,ind,ele):
+
+        self.queue[ind] = ele
+
+    def next(self,ind):
+
+        return (ind + 1) % self.cap
+
+    def enqueue(self,ele):
+
+        if self.isfull():
+
+            raise Exception("Queue Overflow")
+        
+        else:
+
+            self.queue[self.rear] = ele
+            self.rear = self.next(self.rear)
+            self.size += 1
+        
+    def dequeue(self):
+
+        if self.isempty():
+
+            raise Exception("Queue underflow")
+        
+        else:
+
+            pop_ele = self.queue[self.front]
+            self.queue[self.front] = ctypes.py_object()
+            self.front = self.next(self.front)
+            self.size -= 1
+            return pop_ele
+        
+    def __getitem__(self,ind):
+
+        return self.queue[ind]
+
+    def isempty(self):
+
+        return self.front == self.rear
+    
+    def isfull(self):
+
+        return self.next(self.rear) == self.front
+    
+    def __str__(self):
+
+        '''
+        Converts the queue to a string.
+
+        Returns:
+            A string representation of the queue.
+
+        '''
+
+        out = '<'
+
+        for i in range(self.front, self.cap):
+            try:
+                if i != (self.cap - 1):
+                    out += str(self.queue[i])
+                    out += ','
+                else:
+                    out += str(self.queue[i])
+            except:
+                continue
+        return out + '>'
+    
+
+    
+asman = circularqueue(10)
+# for i in x: # x contains some 9 elements
+#     asman.enqueue(i)
+
+# print(asman)
+# asman.dequeue()
+# asman.dequeue()
+# asman.dequeue()
+# asman.dequeue()
+# asman.dequeue()
+# asman.dequeue()
+# asman.dequeue()
+# asman.dequeue()
+# asman.dequeue()
+# asman.dequeue()
+# print(asman)
+
+def binser(data,ele,low,high):
+
+    if low <= high:
+
+        mid = (low + high) // 2
+        if data[mid] == ele:
+
+            return mid
+        
+        elif data[mid] < ele:
+
+            return binser(data,ele,mid+1,high)
+
+        else:
+
+            return binser(data,ele,low,mid - 1)
+    
+    else:
+        
+        return -1
+    
+x.sort()
+a = len(x)
+print(x)
+print(binser(x,800,0,a-1))
+
+# -*- coding: utf-8 -*-
+
+
+'''
+This module provides a class for implementation of the doubly linked
+list created using a DNode that inherits the Node. This is a part of the 
+exercises given under the course UIT2201 (Programming and Data
+Structures).
+
+In this source code I have executed my own logic. The code
+follows good coding practices.
+
+Your comments and suggestions are welcome.
+
+Created on Wed June 7 2023
+
+Revised on Wed June 10 2023
+
+Original Author: U. Pranaav <pranaav2210205@ssn.edu.in>
+
+'''
+
+
+class Node:
+
+    __slots__ = ['item', 'next']
+
+    def __init__(self,item=None,next=None):
+
+        '''
+        Node class represents a node in a singly linked list.
+
+        Args:
+            item: The item/value stored in the Dnode.
+            next: Reference to the next Dnode.
+
+        '''
+
+        self.item = item
+        self.next = next
+
+
+class DNode(Node):
+
+    __slots__ = ['item', 'next', 'prev']
+
+    def __init__(self,item=None,next=None,prev=None):
+
+        '''
+        DNode class represents a Dnode in a singly linked list.
+
+        Args:
+            item: The item/value stored in the node.
+            next: Reference to the next node.
+            prev: Reference to the previous node.
+
+        '''
+
+        super().__init__(item,next)
+        self.prev = prev
+
+
+class doublylinkedlist:
+
+
+    '''
+    This class represents a doubly linked list data structure.
+
+    Attributes:
+        head: A reference to the head (first) Dnode in the linked list.
+        tail: A reference to the tail (last) Dnode in the linked list.
+        size: The number of elements in the linked list.
+
+    Methods:
+        __init__(): Initializes an empty doubly linked list.
+        append(ele): Adds an element to the end of the linked list.
+        insert(ind, ele): Inserts an element at the specified index in the
+        linked list.
+        findprev(ind): Returns the Dnode before the specified index in the
+        linked list.
+        __str__(): Returns a string representation of the linked list.
+        reverse_display(): Returns a string representation of the linked list
+        in reverse order.
+        pop(ind=None): Removes and returns the element at the specified index
+        in the linked list.
+        __len__(): Returns the number of elements in the linked list.
+
+    '''
+
+    def __init__(self):
+
+        '''
+        Initializes an empty doubly linked list.
+
+        The head and tail Dnodes are created, and the size is set to 0.
+
+        '''
+
+        self.head = self.tail = DNode()
+        self.size = 0
+
+
+    def append(self, ele):
+
+        '''
+        Adds an element to the end of the linked list.
+
+        Args:
+            ele: The element to be added to the linked list.
+
+        '''
+
+        temp = DNode(ele)
+        self.tail.next = temp
+        temp.prev = self.tail
+        self.tail = temp
+        self.size += 1
+
+
+    def insert(self, ind, ele):
+        
+        '''
+        Inserts an element at the specified index in the linked list.
+
+        Args:
+            ind: The index at which to insert the element.
+            ele: The element to be inserted.
+
+        Raises:
+            Exception: If the index is invalid.
+
+        '''
+
+        if ind > 0 and ind < self.size - 2:
+
+            pos = self.findprev(ind)
+            temp = DNode(ele)
+            pos.next.prev = temp
+            temp.next = pos.next
+            pos.next = temp
+            temp.prev = pos
+            self.size += 1
+
+        elif ind == self.size - 1:
+            self.append(ele)
+        else:
+            raise Exception("Invalid index")
+
+
+    def findprev(self, ind):
+
+        '''
+        Returns the Dnode before the specified index in the linked list.
+
+        Args:
+            ind: The index of the Dnode to find.
+
+        Returns:
+            The Dnode before the specified index.
+
+        Raises:
+            Exception: If the index is invalid.
+
+        '''
+
+        if ind < self.size:
+            if ind > 0:
+                pos = self.head.next
+                for i in range(ind - 1):
+                    pos = pos.next
+                return pos
+            else:
+                return self.head
+        else:
+            raise Exception("Invalid index")
+
+
+    def __str__(self):
+
+        '''
+        Returns a string representation of the linked list.
+
+        Returns:
+            A string representation of the linked list.
+
+        '''
+
+        pos = self.head.next
+        s = '['
+        while pos is not None:
+            s += str(pos.item) + ','
+            pos = pos.next
+        if s[-1] == ',':
+            s = s[:-1]
+        return s + ']'
+
+
+    def reverse_display(self):
+
+        '''
+        Returns a string representation of the linked list in reverse order.
+
+        Returns:
+            A string representation of the linked list in reverse order.
+
+        '''
+
+        pos = self.tail
+        s = '['
+        while pos is not None and pos.item is not None:
+            s += str(pos.item) + ','
+            pos = pos.prev
+        if s[-1] == ',':
+            s = s[:-1]
+        return s + ']'
+
+
+    def pop(self, ind=None):
+
+        '''
+        Removes and returns the element at the specified index in the linked list.
+
+        If no index is provided, the element at the end of the linked list is
+        removed.
+
+        Args:
+            ind: The index of the element to remove. Default is None.
+
+        Returns:
+            The removed element.
+
+        Raises:
+            Exception: If the index is invalid.
+
+        '''
+
+        if ind is None:
+            pos = self.tail.prev
+            pop_val = pos.next.item
+            self.tail.prev = None
+            pos.next = None
+            self.tail = pos
+            self.size -= 1
+            return pop_val
+        
+        else:
+            pos = self.findprev(ind)
+            pop_val = pos.next.item
+            pos.next.next.prev = pos
+            pos.next = pos.next.next
+            self.size -= 1
+            return pop_val
+
+
+    def __len__(self):
+
+        '''
+        Returns the number of elements in the linked list.
+
+        Returns:
+            The number of elements in the linked list.
+
+        '''
+
+        return self.size
+
+
+#driver code
+if __name__ == '__main__':
+    #this part of the code will only be run when the function is called directly
+    #it will not be executed when it is imported as a module
+
+    a = doublylinkedlist()
+
+    a.append(10)
+    a.append(20)
+    a.append(30)
+    a.append(40)
+    a.append(50)
+    a.append(60)
+    a.insert(1,10000)
+
+    print(a)
+    print()
+
+    a.insert(1,20000)
+    print(a)
+    print()
+
+    a.insert(1,30000)
+    print(a)
+    print()
+
+    a.insert(1,40000)
+    print(a)
+    print()
+
+    print(f"Pop element is : {a.pop()}")
+    print(a)
+    print()
+
+    print(f"Pop element is : {a.pop(2)}")
+    print(a)
+    print()
+
+    print(f"Pop element is : {a.pop(4)}")
+    print(a)
+    print()
+
+    print(a.reverse_display())

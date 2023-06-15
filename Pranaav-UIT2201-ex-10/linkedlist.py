@@ -1,3 +1,26 @@
+# -*- coding: utf-8 -*-
+
+
+'''
+This module provides a class for implementation of the singly linked
+list created using a Node class. This is a part of the 
+exercises given under the course UIT2201 (Programming and Data
+Structures).
+
+In this source code I have executed my own logic. The code
+follows good coding practices.
+
+Your comments and suggestions are welcome.
+
+Created on Wed June 7 2023
+
+Revised on Wed June 10 2023
+
+Original Author: U. Pranaav <pranaav2210205@ssn.edu.in>
+
+'''
+
+
 class Node:
 
     __slots__ = ['item', 'next']
@@ -210,20 +233,32 @@ class SinglyLinkedList:
         pos.next = temp
         pos.next.next = temp_pos
 
+#driver code
+if __name__ == '__main__':
+    #this part of the code will only be run when the function is called directly
+    #it will not be executed when it is imported as a module
 
-a = SinglyLinkedList()
-a.append(5)
-a.append(6)
-a.append(8)
-a.append(123)
-a.append(12)
-a.append(4)
-a.append(57)
-a.append(862)
-a.insert(7,99999)
+    a = SinglyLinkedList()
 
-print(a)
-print(a.pop(7))
-print(a)
-print(a.pop(2))
-print(a)
+    a.append(5)
+    a.append(6)
+    a.append(8)
+    a.append(10)
+    a.append(12)
+    a.append(40)
+    a.append(50)
+    a.append(60)
+    a.insert(7,90)
+
+    print("Current linked list is :")
+    print(a)
+    print()
+
+    print("Now popping randomly.")
+    print(a.pop(7))
+    print(a)
+    print()
+    
+    print(a.pop(2))
+    print(a)
+    print()
