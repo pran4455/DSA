@@ -1,0 +1,30 @@
+abstree:
+    absmethod
+        len
+        children
+        numchildren
+        parent
+        root
+    normal
+        isroot
+        isleaf
+        depth
+        height
+        isempty
+
+absbintree:
+    absmethod
+        left
+        right
+    normal
+        children
+        numchildren
+        sibling
+    
+bintree:
+
+    len
+    left
+    right
+    parent
+    root

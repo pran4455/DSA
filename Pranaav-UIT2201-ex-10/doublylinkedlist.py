@@ -280,31 +280,32 @@ if __name__ == '__main__':
     a.append(60)
     a.insert(1,10000)
 
-    print(a)
+    print(f"Current list is : {a}")
     print()
 
     a.insert(1,20000)
-    print(a)
+    print(f"Current list is : {a}")
     print()
 
     a.insert(1,30000)
-    print(a)
+    print(f"Current list is : {a}")
     print()
 
     a.insert(1,40000)
-    print(a)
+    print(f"Current list is : {a}")
     print()
 
     print(f"Pop element is : {a.pop()}")
-    print(a)
+    print(f"Current list is : {a}")
     print()
 
     print(f"Pop element is : {a.pop(2)}")
-    print(a)
+    print(f"Current list is : {a}")
     print()
 
     print(f"Pop element is : {a.pop(4)}")
-    print(a)
+    print(f"Current list is : {a}")
     print()
 
+    print("Now printing the reverse display")
     print(a.reverse_display())

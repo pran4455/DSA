@@ -227,11 +227,44 @@ class SinglyLinkedList:
 
     def insert(self, ind, ele):
 
+        '''
+        Inserts an element at the given index in the linked list.
+
+        Args:
+            ind: The index at which the element should be inserted.
+            ele: The element to be inserted.
+
+        '''
+
         pos = self.findprev(ind)
         temp = Node(ele)
         temp_pos = pos.next.next
         pos.next = temp
         pos.next.next = temp_pos
+
+
+    def remove(self, ele):
+
+        '''
+        Removes the first occurrence of the given element from the linked list.
+
+        Args:
+            ele: The element to be removed.
+
+        Raises:
+            Exception: If the element is not found in the list.
+
+        '''
+
+        prev = self.findprev(ele)
+        delnode = prev.next
+
+        if delnode is None:
+            raise Exception("Element is not in list!")
+        prev.next = delnode.next
+            
+        self.size -= 1
+
 
 #driver code
 if __name__ == '__main__':
@@ -262,3 +295,5 @@ if __name__ == '__main__':
     print(a.pop(2))
     print(a)
     print()
+
+
