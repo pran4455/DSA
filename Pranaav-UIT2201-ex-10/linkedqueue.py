@@ -147,7 +147,7 @@ class SinglyLinkedQueue:
         while pos is not None:
             if pos.item == ele:
                 return ct
-
+    
             ct += 1
             pos = pos.next
 

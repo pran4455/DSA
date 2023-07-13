@@ -1,4 +1,5 @@
 import random
+from abc import ABCMeta, abstractmethod,ABC
 
 def ins_sort(data):
 
@@ -1383,3 +1384,672 @@ def deserialize_bst(serialized):
             value = nodes[index]
             bintree.insert(value)
             index += 1
+
+class abstracttree:
+
+    @abstractmethod
+    def root(self):
+        pass
+    
+    @abstractmethod
+    def children(self,pos):
+        pass
+
+    @abstractmethod
+    def parent(self,pos):
+        pass
+
+    @abstractmethod
+    def num_children(self,pos):
+        pass
+
+    @abstractmethod
+    def __len__(self):
+        pass
+
+    @abstractmethod
+    def element(self):
+        pass
+
+    def isroot(self,pos):
+
+        return self.root() == pos
+    
+    def isleaf(self,pos):
+    
+        return self.num_children(pos) == 0
+    
+    def isemtpy(self):
+
+        return self.size == 0
+    
+    def depthN(self,pos):
+
+        if self.isroot(pos):
+            return 0
+
+        return 1 + self.depthN(self.parent(pos))
+    
+    def heightN(self,pos):
+
+        if self.isleaf(pos):
+
+            return 0
+        
+        return 1 + max(self.heightN(child) for child in self.children(pos))
+    
+    def height(self,pos=None):
+
+        if pos is None:
+
+            return self.heightN(self.root())
+        
+        return self.heightN(pos)
+    
+    def depth(self,pos=None):
+
+        if pos is None:
+
+            return self.depthN(self.root())
+        
+        return self.depthN(pos)
+    
+
+class absbintree(abstracttree):
+
+    @abstractmethod
+    def left(self):
+        pass
+
+    @abstractmethod
+    def right(self):
+        pass
+
+    def children(self,pos):
+
+        children_list = []
+
+        if pos.left() is not None:
+
+            children_list.append(self.element(pos.left()))
+        
+        if pos.right() is not None:
+
+            children_list.append(self.element(pos.right()))
+
+        return children_list
+    
+    def sibling(self,pos):
+
+        parent = self.parent(pos)
+        if self.left(parent) == pos:
+            return self.right(parent)
+        
+        return self.left(parent)
+
+
+class BTNode:
+
+        __slots__ = ['item','Tleft','Tright','parent']
+
+        def __init__(self,item,Tleft,Tright,parent):
+
+            self.item = item
+            self.Tleft = Tleft
+            self.Tright = Tright
+            self.parent = parent
+
+        def __setitem__(self,ele):
+
+            self.item = ele
+
+        def __getitem__(self):
+
+            return self.item
+        
+
+class linkedbinarytree(absbintree):
+
+    def __init__(self,item=None,Tleft=None,Tright=None,parent=None):
+        
+        self.Root = None
+        self.size = None
+
+        if item is not None:
+
+            self.Root = self.addroot(item)
+            self.size = 1
+
+            if Tleft is not None:
+
+                if Tleft.Root is not None:
+                    
+                    Tleft.Root.parent = self.Root
+                    self.Root
+
+class snode:
+
+    __slots__ = ['item','next']
+
+    def __init__(self,item=None,next=None):
+
+        self.item = item
+        self.next = next
+
+
+class linkedls:
+
+    def __init__(self):
+
+        self.head = self.rear = snode()
+        self.size = 0
+
+    def append(self,ele):
+
+        temp = snode(ele)
+        self.rear.next = temp
+        self.rear = temp
+        self.size += 1
+
+    def pop(self,pos=None):
+            
+        if self.isempty():
+
+            raise Exception("Emtpy list")
+
+        if pos is None:
+            pos = self.findprev(self.rear)
+            del_item = self.rear.item
+            pos.next = None
+            self.rear = pos
+            self.size -= 1
+            return del_item
+
+        else:
+
+            new = self.findprevind(pos)
+            del_item = new.next.item
+            new.next = new.next.next
+            self.size -= 1
+            return del_item
+
+    def findprevind(self,ind):
+
+        curpose = self.head
+        count = 0
+
+        while count < ind:
+
+            curpose = curpose.next
+            count += 1
+        
+        return curpose
+
+    def findprev(self,pos):
+
+        curpos = self.head
+
+        while curpos.next is not pos:
+
+            curpos = curpos.next
+        
+        return curpos
+    
+    def insert(self,ele,pos):
+
+        prevpos = self.findprev(pos)
+        temp = snode(ele)
+        temp.next = pos
+        prevpos.next = temp
+        self.size += 1
+
+    def isempty(self):
+
+        return self.head == self.rear
+
+    def find(self,ele):
+
+        curpos = self.head
+
+        while curpos.next.item is not ele:
+
+            curpos = curpos.next
+        
+        return curpos
+    
+    def delete(self,ele):
+
+        if self.isempty():
+            raise Exception("empty list")
+
+        curpos = self.find(ele)
+
+        if self.rear != curpos:
+            curpos.next = curpos.next.next
+            self.size -= 1
+
+        else:
+            curpos.next = None
+            self.size -= 1
+            self.rear = curpos
+
+    def __len__(self):
+
+        return self.size
+    
+    def __str__(self):
+
+        s = '['
+
+        pos = self.head.next
+        while pos is not None:
+
+            s += str(pos.item) + ','
+            pos = pos.next
+
+        if s[-1] == ',':
+
+            s = s[:-1]
+
+        return s + ']'
+    
+
+a = linkedls()
+
+# a.append(10)
+# a.append(20)
+# a.append(30)
+# a.append(40)
+# a.append(50)
+# a.append(60)
+# print(a)
+# print(a.pop())
+# print(a.pop())
+# print(a)
+# print(a.pop(1))
+# print(a)
+# a.delete(10)
+# print(a)
+# a.delete(40)
+# print(a)
+
+class linkedarr:
+
+    def __init__(self):
+
+        self.top = snode()
+        self.size = 0
+
+    def push(self,ele):
+            
+        if self.isempty():
+
+            temp = snode(ele)
+            self.top.next = temp
+            self.size += 1
+
+        else:
+
+            temp = snode(ele)
+            temp.next = self.top.next
+            self.top.next = temp
+            self.size += 1
+
+    def pop(self):
+
+        if self.isempty():
+
+            raise Exception("Stack underflow")
+        
+        del_item = self.top.next.item
+        self.top.next = self.top.next.next
+        self.size -= 1
+        return del_item
+
+    def isempty(self):
+
+        return self.top.next == None
+
+    def __str__(self):
+
+        s = '['
+
+        pos = self.top.next
+        while pos is not None:
+
+            s += str(pos.item) + ','
+            pos = pos.next
+
+        if s[-1] == ',':
+
+            s = s[:-1]
+
+        return s + ']'
+    
+# a = linkedarr()
+# a.push(10)
+# a.push(20)
+# a.push(30)
+# a.push(40)
+# a.push(50)
+# print(a)
+# print(a.pop())
+# print(a.pop())
+# print(a)
+
+class linkedq:
+
+    def __init__(self):
+
+        self.front = self.rear = snode()
+        self.size = 0
+
+    def enqueue(self,ele):
+
+        temp = snode(ele)
+        self.rear.next = temp
+        self.rear = temp
+        self.size += 1
+
+    def dequeue(self):
+
+        if self.isempty():
+
+            raise Exception("Empty queue")
+        
+        del_ele = self.front.next.item
+        self.front.next = self.front.next.next
+        self.size -= 1
+        return del_ele
+        
+    def __str__(self):
+
+        s = '['
+
+        pos = self.front.next
+        while pos is not None:
+
+            s += str(pos.item) + ','
+            pos = pos.next
+
+        if s[-1] == ',':
+
+            s = s[:-1]
+
+        return s + ']'
+    
+    def isempty(self):
+
+        return self.front == self.rear
+    
+# a = linkedq()
+# a.enqueue(10)
+# a.enqueue(20)
+# a.enqueue(30)
+# print(a)
+# print(a.dequeue())
+# print(a.dequeue())
+# print(a)
+
+class circularlinkq:
+
+    def __init__(self):
+
+        self.front = self.rear = snode()
+        self.rear.next = self.front
+        self.size = 0
+    
+    def enqueue(self,ele):
+
+        pass
+
+class dnode:
+
+    __slots__ = ['item','next','prev']
+
+    def __init__(self,item=None,next=None,prev=None):
+
+        self.item = item
+        self.next = next
+        self.prev = prev
+
+class doublinkedls:
+
+    def __init__(self):
+
+        self.head = self.tail = dnode()
+        self.size = 0
+    
+    def append(self,ele):
+
+        temp = dnode(ele)
+        temp.prev = self.tail
+        self.tail.next = temp
+        self.tail = temp
+        self.size += 1
+
+    def pop(self):
+        pass
+
+class BTnode:
+
+    __slots__ = ['item','Tleft','Tright','parent']
+
+    def __init__(self,item=None,Tleft=None,Tright=None,Parent=None):
+
+        self.item = item
+        self.tleft = Tleft
+        self.tright = Tright
+        self.parent = Parent
+    
+    def __setitem__(self,ele):
+
+        self.item = ele
+
+    def __getitem__(self):
+
+        return self.item
+    
+
+class abstree(ABC):
+
+    @abstractmethod
+    def root(self):
+        raise Exception("Not implemented")
+    
+    @abstractmethod
+    def children(self):
+        pass
+
+    @abstractmethod
+    def numchildren(self):
+        pass
+
+    @abstractmethod
+    def __len__(self):
+        pass
+
+    @abstractmethod
+    def Parent(self):
+        pass
+
+    def isroot(self,pos):
+
+        return self.root() == pos
+    
+    def isleaf(self,pos):
+
+        return self.numchildren == 0
+    
+    def depthN(self,pos):
+
+        if self.isroot(pos):
+
+            return 0
+        
+        return 1 + self.depthN(self.Parent(pos))
+    
+    def heightN(self,pos):
+
+        if self.isleaf(pos):
+
+            return 0
+        
+        return 1 + max([self.heightN(child) for child in self.children(pos)])
+    
+    def isempty(self):
+
+        return len(self) == 0
+    
+    def height(self):
+
+        pos = self.root()
+
+        return self.heightN(pos)
+    
+class absbintree(abstree):
+
+    @abstractmethod
+    def getleft(self,pos):
+        pass
+
+    @abstractmethod
+    def getright(self,pos):
+        pass
+
+    def sibling(self,pos):
+
+        parent = self.Parent(pos)
+        if self.numchildren(parent) == 1:
+
+            return None
+        
+        if self.getleft(parent) == pos:
+
+            return self.getright(parent)
+        
+        return self.getleft(parent)
+    
+    def children(self,pos):
+
+        if pos is None:
+            return None
+
+        if self.getleft(pos) is not None:
+            yield self.getleft(pos)
+
+        if self.getright(pos) is not None:
+            yield self.getright(pos)
+    
+class linkedbintree(absbintree):
+
+    def __init__(self,item=None,Tleft=None,Tright=None,Parent=None):
+
+        self.Root = None
+        self.size = 0
+
+        if item is not None:
+
+            if self.Root is None:
+                self.Root = self.addroot(item)
+                self.size = 1
+
+            if Tleft is not None:
+
+                if Tleft.root() is not None:
+
+                    Tleft.Root.parent = self.Root
+
+a = 'man'
+b = 'amn'
+c = 'nam'
+print(hash(a) == hash(b))
+print(hash(a) == hash(c))
+
+
+class expressiontree(linkedbinarytree):
+
+    def __init__(self, item=None, Tleft=None, Tright=None, parent=None):
+        super().__init__(item, Tleft, Tright, parent)
+    
+    def cons(self,st):
+
+
+        s = []
+        for ch in st:
+
+            if ch in '+-/*':
+
+                right = s.pop()
+                left = s.pop()
+                s.append(expressiontree(ch,right,left))
+
+a = []
+b = 'ab+c/d*e+f-'
+
+class BinaryExpressionTree:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+    
+    def __str__()
+    
+def infix_to_binary_expression_tree(expression):
+    # Operator precedence dictionary
+    precedence = {
+        '+': 1,
+        '-': 1,
+        '*': 2,
+        '/': 2
+    }
+    
+    # Helper function to check if a token is an operator
+    def is_operator(token):
+        return token in ['+', '-', '*', '/']
+    
+    # Helper function to construct the binary expression tree
+    def construct_expression_tree(tokens):
+        if len(tokens) == 1:
+            # Base case: create a leaf node with the operand value
+            return BinaryExpressionTree(tokens[0])
+        
+        # Find the operator with the lowest precedence
+        min_precedence = float('inf')
+        min_precedence_operator = None
+        for i in range(len(tokens) - 2, -1, -2):
+            operator = tokens[i]
+            if precedence[operator] < min_precedence:
+                min_precedence = precedence[operator]
+                min_precedence_operator = i
+        
+        # Create a subtree with the operator as the root
+        operator = tokens[min_precedence_operator]
+        tree = BinaryExpressionTree(operator)
+        
+        # Recursively construct the left and right subtrees
+        tree.left = construct_expression_tree(tokens[:min_precedence_operator])
+        tree.right = construct_expression_tree(tokens[min_precedence_operator + 1:])
+        
+        return tree
+    
+    # Tokenize the expression into a list of operands and operators
+    tokens = []
+    current_token = ""
+    for char in expression:
+        if char.isspace():
+            continue
+        elif is_operator(char):
+            tokens.append(current_token)
+            tokens.append(char)
+            current_token = ""
+        else:
+            current_token += char
+    tokens.append(current_token)
+    
+    # Construct the binary expression tree
+    tree = construct_expression_tree(tokens)
+    return tree
+
+expression = "3 + 4 * 2 - 5"
+tree = infix_to_binary_expression_tree(expression)

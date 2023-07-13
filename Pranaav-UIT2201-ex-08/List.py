@@ -326,7 +326,7 @@ class Array:
 
         '''
 
-        if ind <= self.top:
+        if ind < self.capacity:
             self.array[ind] = ele
 
         else:
@@ -345,15 +345,14 @@ class Array:
 
         out = '<'
         for i in range(self.n):
-            try:
+            
                 if i != (self.n - 1):
                     out += str(self.array[i])
                     out += ','
 
                 else:
                     out += str(self.array[i])
-            except:
-                continue
+            
 
         return out + '>'
 
